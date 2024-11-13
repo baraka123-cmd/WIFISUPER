@@ -1,0 +1,150 @@
+import os
+import git
+
+# Replace these variables with your own
+repo_name = "WIFISUPER"
+username = "baraka123-cmd"  # Replace with your GitHub username
+token = "Barakabriton12"  # Replace with your GitHub token
+repo_url = f"https://{username}:{token}@github.com/{username}/{repo_name}.git"
+
+# Directory structure for your project
+project_dir = os.path.join(os.getcwd(), repo_name)
+
+# HTML and CSS template content
+html_content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WIFISUPER</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to WIFISUPER</h1>
+        <p>Your premium WiFi service. Sign in to get started!</p>
+        <a href="#sign-in" class="btn">Sign In</a>
+    </header>
+    <section id="sign-in">
+        <h2>Sign In</h2>
+        <form action="#" method="POST">
+            <label for="username">Phone Number or Email:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="payment">Payment Confirmation:</label>
+            <input type="text" id="payment" name="payment" placeholder="Enter payment receipt" required>
+            <button type="submit">Access WiFi</button>
+        </form>
+    </section>
+    <section id="payment-info">
+        <h2>How to Pay</h2>
+        <p>To access WIFISUPER, please make a payment through the following number:</p>
+        <p><strong>0744466225</strong></p>
+        <ol>
+            <li>Go to your mobile payment app.</li>
+            <li>Enter the number 0744466225 as the recipient.</li>
+            <li>Send the payment and enter the receipt number in the sign-in form.</li>
+        </ol>
+    </section>
+    <footer>
+        <p>&copy; 2024 WIFISUPER. All rights reserved.</p>
+        <p>For support, please contact us at 0744466225.</p>
+    </footer>
+</body>
+</html>
+"""
+
+css_content = """* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f4f4f4;
+    color: #333;
+}
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 40px;
+    text-align: center;
+    width: 100%;
+}
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+header .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    margin-top: 20px;
+}
+#sign-in, #payment-info {
+    background-color: white;
+    padding: 20px;
+    margin: 20px 0;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+#sign-in h2, #payment-info h2 {
+    margin-bottom: 15px;
+    color: #4CAF50;
+}
+form label, form input, form button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+input, button {
+    padding: 10px;
+    font-size: 1em;
+}
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    width: 100%;
+}
+footer p {
+    margin: 5px 0;
+}
+"""
+
+# Create project directory and files
+os.makedirs(project_dir, exist_ok=True)
+
+with open(os.path.join(project_dir, "index.html"), "w") as file:
+    file.write(html_content)
+
+with open(os.path.join(project_dir, "styles.css"), "w") as file:
+    file.write(css_content)
+
+# Initialize the repository and push to GitHub
+try:
+    # Initialize local repo
+    repo = git.Repo.init(project_dir)
+    repo.index.add(["index.html", "styles.css"])
+    repo.index.commit("Initial commit")
+
+    # Add remote URL and push to GitHub
+    origin = repo.create_remote("origin", repo_url)
+    origin.push(refspec="master:master")
+    print(f"Website has been uploaded to GitHub at {repo_url.replace(f':{token}@', '/')}")
+
+except Exception as e:
+    print(f"An error occurred: {e}")
